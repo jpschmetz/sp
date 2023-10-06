@@ -8,7 +8,7 @@ max_turns = 4
 num_agents = 3
 
 # Streamlit interface setup
-st.title("Multi-Agent GPT App")
+st.title("Multi-Agent GPT App v2")
 master_prompt = st.text_input("Enter Master Prompt:")
 agent_prompts = [st.text_input(f"Enter Agent {i+1} Prompt:") for i in range(num_agents)]
 final_prompts = [st.text_input(f"Enter Agent {i+1} Final Prompt:") for i in range(num_agents)]
@@ -98,7 +98,7 @@ if st.button("run"):
     for turn in range(max_turns):
         for i1, agent in enumerate(agents):
             # Construct prompt for GPT
-            prompt = master_prompt + agent['prompt'] + agent['last_summary'] + ''.join(agent['messages'])
+            prompt = master_prompt + "\n" + agent['prompt'] + "\nhere's the summary you have made so far of the conversation\n" + agent['last_summary'] + "\nhere is the entire covnersation\n" + ''.join(agent['messages']) + "\n please summarize your understanding of the full conversaton first in bullet points (after you write \"SUMMARY:\"), then submit your message to the group after writing \"MESSAGE:\"\n"
             
             # Call GPT API
             response = openai.Completion.create(
